@@ -1,8 +1,10 @@
 workflow "Hello actions" {
   on = "push"
+  resolves = ["build"]
 }
 
-action "Build Docker image" {
-  uses = "docker://docker:stable"
-  args = ["build", "-t", "ancs21/hello-actions", "."]
+
+action "build" {
+  uses = "actions/docker/cli@master"
+  args = "build -t ancs21/hello-actions ."
 }
