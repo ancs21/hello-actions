@@ -1,23 +1,21 @@
-workflow "Hello actions" {
+workflow "Publish Docker" {
   on = "push"
-  resolves = [
-    "build",
-    "Docker Push ",
-  ]
+  resolves = ["logout"]
 }
 
-action "build" {
-  uses = "actions/docker/cli@master"
-  args = "build -t ancs21/hello-actions ."
+action "login" {
+  uses = "actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+  secrets = ["DOCKER_PASSWORD", "DOCKER_USERNAME"]
 }
 
-action "Docker Hub Login" {
-  uses = "actions/docker/login@86ff551d26008267bb89ac11198ba7f1d807b699"
-  secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
+action "publish" {
+  uses = "elgohr/Publish-Docker-Github-Action@1.0"
+  args = "ancs21/hello-actions"
+  needs = ["login"]
 }
 
-action "Docker Push " {
-  uses = "actions/docker/cli@master"
-  needs = ["Docker Hub Login", "build"]
-  runs =  ["push", "ancs21/hello-actions"]
+action "logout" {
+  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+  args = "logout"
+  needs = ["publish"]
 }
