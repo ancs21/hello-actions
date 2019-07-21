@@ -17,7 +17,7 @@ action "Docker Hub Login" {
 }
 
 action "Docker Push " {
-  uses = "actions/docker/cli@86ff551d26008267bb89ac11198ba7f1d807b699"
+  uses = "actions/docker/cli@master"
   needs = ["Docker Hub Login", "build"]
-  runs = "push ancs21/hello-actions"
+  runs =  ["push", "ancs21/hello-actions"]
 }
