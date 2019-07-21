@@ -1,8 +1,5 @@
 workflow "Hello actions" {
   on = "push"
-  resolves = [
-    "GitHub Action for Docker",
-  ]
 }
 
 action "Build Docker image" {
